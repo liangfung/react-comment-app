@@ -10,7 +10,6 @@ class CommentInput extends Component {
   }
 
   handleUsernameChange(e) {
-    debugger
     this.setState({
       username: e.target.value
     })

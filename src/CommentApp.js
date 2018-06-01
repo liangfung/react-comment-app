@@ -21,6 +21,7 @@ class ComponentApp extends Component {
   }
 
   render() {
+    console.log('commentapp render')
     return (
       <div className='wrapper'>
         <CommentInput
