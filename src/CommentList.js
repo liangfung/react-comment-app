@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import Comment from './Comment'
+import PropTypes from 'prop-types'
 class CommentList extends Component {
+  static propTypes = {
+    comments: PropTypes.array,
+    onDeleteComment: PropTypes.func
+  }
   static defaultProps = {
     comments: []
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: '子组件'
-    }
-  }
-
-  handleClick() {
-    this.setState({content: '更新了'})
+  handleDeleteComment(index) {
+    this.props.onDeleteComment(index)
   }
 
   render() {
@@ -24,11 +22,12 @@ class CommentList extends Component {
           this.props.comments.map((comment, i) => {
             return (
               <div key={i}>
-                <button onClick={this.handleClick.bind(this)}>一级子组件{this.state.content}</button>
                 <Comment
                   comment={comment}
+                  key={i}
+                  index={i}
+                  onDeleteComment={this.handleDeleteComment.bind(this)}
                 />
-                
               </div>
             )
           })

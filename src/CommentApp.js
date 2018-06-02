@@ -10,11 +10,39 @@ class ComponentApp extends Component {
     }
   }
 
+  componentWillMount() {
+    this._loadComments()
+  }
+
   handleSubmitContent(comment) {
     if (!comment) return
     if (!comment.username) return alert('请输入用户名')
     if (!comment.content) return alert('请输入评论内容')
     let arr = [...this.state.comments, comment];
+    this._saveComments(arr);
+    this.setState({
+      comments: arr
+    });
+
+  }
+
+  _saveComments(comments){
+    localStorage.setItem('comments', JSON.stringify(comments))
+  }
+  _loadComments(){
+    let comments = localStorage.getItem('comments');
+    if (comments) {
+      comments = JSON.parse(comments);
+      if (comments && comments.length) {
+        this.setState({comments})
+      }
+    }
+  }
+
+  handleDeleteComment(index){
+    const arr = [...this.state.comments];
+    arr.splice(index, 1);
+    this._saveComments(arr);
     this.setState({
       comments: arr
     })
@@ -29,6 +57,7 @@ class ComponentApp extends Component {
         />
         <CommentList
           comments={this.state.comments}
+          onDeleteComment={this.handleDeleteComment.bind(this)}
         />
       </div>
     )
